@@ -1,5 +1,162 @@
-<html> 
-<body>
-Teste
-</body>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Trabalho 1</title>
+	</head>
+	<style>
+	body {
+	  text-align: center, center;
+		font-size: 40px;
+		font-family: Franklin Gothic Medium;
+	}
+	</style>
+	<body>
+	<script>
+
+  var canvas, ctx, ALTURA, LARGURA, velocidade = 8, dist = 0, record, img, frames = 0, startx = 0,
+  
+    obstaculos = {
+		  _obs: [],
+		  cores: ["#ffbc1c", "#ff1c1c"],
+		  tempoInsere: 0,
+		  
+		  insere: function() {
+  		    this._obs.push({
+    		      x: 15 + 50 * Math.floor(Math.random() * 9),
+    		      y: 0,
+    		      largura: 50,
+    		      //largura: 30 + Math.floor(Math.random() * 21),
+    		      altura:  50,
+    		      cor: this.cores[Math.floor(Math.random() * 2)]
+  		    });
+  		    
+  		    this.tempoInsere = 20 + Math.floor(Math.random() * 20);
+		  },
+		  
+		  atualiza: function() {
+  		    if(this.tempoInsere == 0) {
+  		        this.insere();
+  		    }
+  		    else
+  		        this.tempoInsere--;
+  		    
+  	      for (var i = 0, tam = this._obs.length; i < tam; i++) {
+    	        var obs = this._obs[i];
+    	        
+    	        obs.y += velocidade;
+    	        
+    	        if(obs.y + obs.altura >= chao.y + obs.altura) {
+                  this._obs.splice(i, 1);
+                  tam--;
+                  i--;
+              }
+  	      }
+		  },
+		  
+		  desenha: function() {
+		      for (var i = 0, tam = this._obs.length; i < tam;  i++) {
+    		      var obs = this._obs[i];
+    		      ctx.fillStyle = obs.cor;
+    		      ctx.fillRect(obs.x, obs.y, obs.largura, obs.altura);
+		    }
+		  }
+    },
+		  
+		bloco = {
+			x: 210,
+			y: 560,
+			altura: 30,
+			largura: 30,
+			cor: "#ff9239",
+			
+			desenha: function() {
+  				ctx.fillStyle = this.cor;
+  				ctx.fillRect(this.x, this.y, this.largura, this.altura);
+			}
+		},
+
+  chao = {
+			y: 590,
+			x: 0,
+			altura: 50,
+			cor: "#e8da78",
+
+			desenha: function() {
+				ctx.fillStyle = this.cor;
+				ctx.fillRect(0, this.y, LARGURA, this.altura);
+			}
+	};
+	
+	function atualiza() {
+      frames++;
+      
+      obstaculos.atualiza();
+	}
+	
+	function main() {
+			ALTURA = window.innerHeight;
+			LARGURA = window.innerWidth;
+
+      if (LARGURA >= 500) {
+				LARGURA = 480;
+				ALTURA = 640;
+			}
+
+			canvas = document.createElement("canvas");
+			canvas.width = LARGURA;
+			canvas.height = ALTURA;
+			canvas.style.border = "1px solid #000";
+
+			ctx = canvas.getContext("2d");
+			document.body.appendChild(canvas);
+			
+			document.addEventListener('touchstart', function(e) {
+	    var touchobj = e.changedTouches[0];
+      startx = parseInt(touchobj.clientX);
+	}, false);
+			document.addEventListener('touchmove', function(e) {
+	    var touchobj = e.changedTouches[0];
+      var dist = parseInt(touchobj.clientX) - startx;
+      bloco.x += dist;
+      
+      if (bloco.x < 0)
+          bloco.x = 0;
+      else if (bloco.x > LARGURA)
+          bloco.x = LARGURA;
+          
+      e.preventDefault();
+  }, false);
+		
+		  roda();
+	}
+	
+	function roda() {
+			desenha();
+			atualiza();
+
+			window.requestAnimationFrame(roda);
+	}
+	
+	function desenha() {
+			ctx.fillStyle = "#80daff";
+      ctx.fillRect(0, 0, LARGURA, ALTURA);
+
+			ctx.fillStyle = "#fff";
+			ctx.font = "50px Arial";
+
+			
+
+			
+			obstaculos.desenha();
+			chao.desenha();
+			bloco.desenha();
+			
+	}
+	
+	
+	main();
+
+</script>
+  </body>
 </html>
+
