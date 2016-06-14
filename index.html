@@ -117,7 +117,7 @@
 			document.addEventListener('touchmove', function(e) {
 	    var touchobj = e.changedTouches[0];
       var dist = parseInt(touchobj.clientX) - startx;
-      bloco.x += dist /100;
+      bloco.x += dist /10;
       
       if (bloco.x < 0)
           bloco.x = 0;
