@@ -13,7 +13,13 @@
 	<body>
 	<script>
 
-  var canvas, ctx, ALTURA, LARGURA, velocidade = 8, dist = 0, record, img, frames = 0, startx = 0,
+ var canvas, ctx, ALTURA, LARGURA, velocidade = 8, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record,
+
+    estados = {
+			jogar: 0,
+			jogando: 1,
+			perdeu: 2
+		},
   
     obstaculos = {
 		  _obs: [],
@@ -22,11 +28,11 @@
 		  
 		  insere: function() {
   		    this._obs.push({
-    		      x: 15 + 50 * Math.floor(Math.random() * 9),
+    		      x: 20 + 40 * Math.floor(Math.random() * 11),
     		      y: 0,
-    		      largura: 50,
+    		      largura: 40,
     		      //largura: 30 + Math.floor(Math.random() * 21),
-    		      altura:  50,
+    		      altura:  40,
     		      cor: this.cores[Math.floor(Math.random() * 2)]
   		    });
   		    
@@ -42,15 +48,34 @@
   		    
   	      for (var i = 0, tam = this._obs.length; i < tam; i++) {
     	        var obs = this._obs[i];
-    	        
     	        obs.y += velocidade;
     	        
-    	        if(obs.y + obs.altura >= chao.y + obs.altura) {
+    	        if ( obs.x + obs.largura > bloco.x && obs.x < bloco.x + bloco.largura && obs.y + obs.altura >= bloco.y) {
+    	               if (obs.cor == "#ff1c1c")
+    	                  estadoAtual = estados.perdeu;
+    	                  
+    	               if (obs.cor == "#ffbc1c") {
+    	                  if (obs.y >= chao.y)
+    	                  {
+    	                      this._obs.splice(i, 1);
+                            tam--;
+                            i--;
+    	                      bloco.score = bloco.score + 1;
+    	                      console.log(bloco.score);
+    	                  }
+    	              }
+          	  }
+          	        
+    	        else if(obs.y >= chao.y) {
                   this._obs.splice(i, 1);
                   tam--;
                   i--;
               }
-  	      }
+        	}
+		  },
+		  
+		  limpa: function() {
+		      this._obs = [];
 		  },
 		  
 		  desenha: function() {
@@ -63,15 +88,27 @@
     },
 		  
 		bloco = {
-			x: 210,
-			y: 560,
-			altura: 30,
-			largura: 30,
+			x: 215,
+			y: 540,
+			altura: 50,
+			largura: 50,
 			cor: "#ff9239",
+			score: 0,
 			
 			desenha: function() {
   				ctx.fillStyle = this.cor;
   				ctx.fillRect(this.x, this.y, this.largura, this.altura);
+			},
+			
+			reset: function() {
+  			  this.x = 215;
+          
+          if (this.score > record) {
+              localStorage.setItem("record", this.score);
+              record = this.score;
+          }
+          
+          this.score = 0;
 			}
 		},
 
@@ -90,17 +127,55 @@
 	function atualiza() {
       frames++;
       
-      obstaculos.atualiza();
+      if(estadoAtual == estados.jogando) {
+          obstaculos.atualiza();
+      } else if (estadoAtual == estados.perdeu) {
+  	    obstaculos.limpa();
+  	  }
 	}
+	
+	function clique(event) {
+			if (estadoAtual == estados.jogar) {
+				estadoAtual = estados.jogando;
+				frames = 0;
+			}
+
+			else if (estadoAtual == estados.perdeu) {
+				estadoAtual = estados.jogar;
+				obstaculos.limpa();
+				bloco.reset();
+			}
+	};
+	
+
+    function checkKey(e) {
+    
+        e = e || window.event;
+    
+        e = e || window.event;
+    
+        if (e.keyCode == '37') {
+          bloco.x -= 40;
+          if (bloco.x < 15)
+              bloco.x = 15;
+          
+        } else if (e.keyCode == '39') {
+           bloco.x += 40;
+           if (bloco.x > LARGURA - bloco.largura)
+              bloco.x = LARGURA - bloco.largura - 15;
+        }
+    
+    }
+	
 	
 	function main() {
 			ALTURA = window.innerHeight;
 			LARGURA = window.innerWidth;
 
-      if (LARGURA >= 500) {
-				LARGURA = 480;
-				ALTURA = 640;
-			}
+      //if (LARGURA >= 500) {
+				//LARGURA = 480;
+				//ALTURA = 640;
+			//}
 
 			canvas = document.createElement("canvas");
 			canvas.width = LARGURA;
@@ -110,21 +185,33 @@
 			ctx = canvas.getContext("2d");
 			document.body.appendChild(canvas);
 			
+			document.addEventListener("mousedown", clique);
+			
+			estadoAtual = estados.jogar;
+
+      record = localStorage.getItem("record");
+
+			if (record === null)
+				record = 0;
+				
+			document.onkeydown = checkKey;
+			
 			document.addEventListener('touchstart', function(e) {
-	    var touchobj = e.changedTouches[0];
-      startx = parseInt(touchobj.clientX);
-	}, false);
-			document.addEventListener('touchmove', function(e) {
-	    var touchobj = e.changedTouches[0];
-      var dist = parseInt(touchobj.clientX) - startx;
-      bloco.x += dist /10;
-      
-      if (bloco.x < 0)
-          bloco.x = 0;
-      else if (bloco.x > 450)
-          bloco.x = 450;
+    	    var touchobj = e.changedTouches[0];
+          startx = parseInt(touchobj.clientX);
+    	}, false);
+    	
+    	document.addEventListener('touchmove', function(e) {
+    	    var touchobj = e.changedTouches[0];
+          var dist = parseInt(touchobj.clientX) - startx;
+          bloco.x += 40 * dist / 1000;
           
-      e.preventDefault();
+          if (bloco.x < 15)
+              bloco.x = 15;
+          else if (bloco.x > LARGURA - bloco.largura)
+              bloco.x = LARGURA - bloco.largura - 15;
+              
+          e.preventDefault();
   }, false);
 		
 		  roda();
@@ -145,11 +232,50 @@
 			ctx.font = "50px Arial";
 
 			
+			if (estadoAtual == estados.jogando) {
+          obstaculos.desenha();
+      }
+      
+      chao.desenha();
+      bloco.desenha();
+      
+      if (estadoAtual == estados.jogar) {
+        
+          ctx.fillStyle = "green";
+          ctx.fillRect(LARGURA / 2 - 50, ALTURA / 2 - 50, 100, 100);
+      }
+      
+      if (estadoAtual == estados.perdeu) {
+          ctx.fillStyle = "red";
+          ctx.fillRect(LARGURA / 2 - 50, ALTURA / 2 - 50, 100, 100);
+          
+          ctx.save();
+          ctx.translate(LARGURA / 2, ALTURA / 2);
+          ctx.fillStyle = "white";
+          
+          if (bloco.score > record) {
+              ctx.fillText("Novo Record!", -150, -65);
+          } else if (record < 10){
+              ctx.fillText("Record " + record, -99, -65);
+          } else if (record >=10 && record < 100 ){
+              ctx.fillText("Record " + record, -112, -65);
+          } else {
+              ctx.fillText("Record " + record, -125, -65);
+          }
+          
+          if (bloco.score < 10) {
+              ctx.fillText(bloco.score, -13, 19);
+          } else if (bloco.score >=10 && bloco.score < 100) {
+              ctx.fillText(bloco.score, -26, 19);
+          } else {
+              ctx.fillText(bloco.score, -40, 19);
+          }
+          
+          ctx.restore();
+          
+          
 
-			
-			obstaculos.desenha();
-			chao.desenha();
-			bloco.desenha();
+      }
 			
 	}
 	
