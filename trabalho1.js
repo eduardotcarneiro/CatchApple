@@ -177,34 +177,16 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 	}
 	
 	function clique(event) {
-	    
-  	  document.onkeydown = checkKey;
-        	
-      document.addEventListener('touchstart', function(e) {
-    	    var touchobj = e.changedTouches[0];
-          startx = parseInt(touchobj.clientX);
-          starty = parseInt(touchobj.clientY);
-          
-          if (estadoAtual === estados.jogar && startx >= LARGURA/2 - 100 && startx <= LARGURA/2 + 100 && starty >= ALTURA/2 - 100 && starty <= ALTURA/2 + 80) {
-        				estadoAtual = estados.jogando;
-        				frames = 0;
-        				
-  	      } else if (estadoAtual === estados.perdeu && startx >= LARGURA/2 - 200 && startx <= LARGURA/2 + 200 && starty >= ALTURA/2 - 150 && starty <= ALTURA/2 + 70) {
-      			  estadoAtual = estados.jogar;
-      				obstaculos.limpa();
-      				bloco.reset();
-      				
-  	      } else if (estadoAtual === estados.jogando && startx <= LARGURA/2 && starty >= ALTURA/2)
-              esquerda();
-              
-          else if (estadoAtual === estados.jogando && startx > LARGURA/2 && starty >= ALTURA/2)
-              direita();
-              
-          
-            
-          e.preventDefault()
-    	}, false);
-				
+			if (estadoAtual == estados.jogar) {
+				estadoAtual = estados.jogando;
+				frames = 0;
+			}
+
+			else if (estadoAtual == estados.perdeu) {
+				estadoAtual = estados.jogar;
+				obstaculos.limpa();
+				bloco.reset();
+			}
 	};
 	
 	  function esquerda () {
