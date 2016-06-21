@@ -1,4 +1,4 @@
-var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
+var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
 
     ALTURA = window.innerHeight - 15,
 		LARGURA = window.innerWidth - 15,
@@ -257,7 +257,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
   }, false);
   
       img = new Image();
-			img.src = "images/fruit.png";
+			img.src = "fruit.png";
 		
 		  roda();
 	}
