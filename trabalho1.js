@@ -1,4 +1,4 @@
-var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
+var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
 
     ALTURA = window.innerHeight - 15,
 		LARGURA = window.innerWidth - 15,
@@ -14,7 +14,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
   
     obstaculos = {
 		  _obs: [],
-		  frutas: ["apple", "banana", "grapes", "pineapple", "orange", "berries", "lemon", "coconut", "strawberry", "papaya", "cherry", "melon"],
+		  frutas: ["apple", "banana", "grapes", "pineapple", "orange", "berries", "pear", "lemon", "coconut", "strawberry", "blueberry", "papaya", "cherry", "melon"],
 		  tempoInsere: 0,
 		  
 		  insere: function() {
@@ -42,11 +42,10 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
     	        var obs = this._obs[i];
     	        obs.y += velocidade;
     	        
-    	        if ( obs.x + obs.largura > bloco.x && obs.x < bloco.x + bloco.largura - 1 && obs.y + obs.altura >= bloco.y) {
+    	        if ( obs.x + obs.largura > bloco.x && obs.x < bloco.x + bloco.largura - 1 && obs.y >= bloco.y ) {
     	              
     	              if (obs.fruta == "apple") {
-    	                  if (obs.y >= bloco.y)
-    	                  {
+    	                  if (obs.y >= bloco.y) {
     	                      this._obs.splice(i, 1);
                             tam--;
                             i--;
@@ -88,29 +87,33 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
     		      var obs = this._obs[i];
     		      
     		      if (obs.fruta == "apple")
-    		          apple.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          apple.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "banana")
-    		          banana.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          banana.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
     		      else if (obs.fruta == "lemon")
-    		          lemon.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          lemon.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
     		      else if (obs.fruta == "grapes")
-    		          grapes.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          grapes.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "pineapple")
     		          pineapple.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		      else if (obs.fruta == "pear")
+    		          pear.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "orange")
-    		          orange.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          orange.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "berries")
-    		          berries.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          berries.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
+    		      else if (obs.fruta == "blueberries")
+    		          blueberries.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
     		      else if (obs.fruta == "coconut")
-    		          coconut.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          coconut.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
     		      else if (obs.fruta == "strawberry")
-    		          strawberry.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          strawberry.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "papaya")
-    		          papaya.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          papaya.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "cherry")
-    		          cherry.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          cherry.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "melon")
-    		          melon.desenha(obs.x, obs.y, obs.largura, obs.altura);
+    		          melon.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
     		      
     		      //ctx.fillStyle = obs.cor;
     		      //ctx.fillRect(obs.x, obs.y, obs.largura, obs.altura);
@@ -128,6 +131,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			desenha: function() {
 				ctx.fillStyle = this.cor;
 				ctx.fillRect(0, this.y, LARGURA, this.altura);
+				
 			}
 	},
 		  
@@ -141,8 +145,9 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			score: 0,
 			
 			desenha: function() {
-  				ctx.fillStyle = this.cor;
-  				ctx.fillRect(this.x, this.y, this.largura, this.altura);
+  				//ctx.fillStyle = this.cor;
+  				//ctx.fillRect(this.x, this.y, this.largura, this.altura);
+  				cesta.desenha(bloco.x - bloco.largura/6, bloco.y - bloco.altura/3, bloco.largura + bloco.largura/3, bloco.altura + bloco.altura/3);
 			},
 			
 			reset: function() {
@@ -172,16 +177,34 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 	}
 	
 	function clique(event) {
-			if (estadoAtual == estados.jogar) {
-				estadoAtual = estados.jogando;
-				frames = 0;
-			}
-
-			else if (estadoAtual == estados.perdeu) {
-				estadoAtual = estados.jogar;
-				obstaculos.limpa();
-				bloco.reset();
-			}
+	    
+  	  document.onkeydown = checkKey;
+        	
+      document.addEventListener('touchstart', function(e) {
+    	    var touchobj = e.changedTouches[0];
+          startx = parseInt(touchobj.clientX);
+          starty = parseInt(touchobj.clientY);
+          
+          if (estadoAtual === estados.jogar && startx >= LARGURA/2 - 100 && startx <= LARGURA/2 + 100 && starty >= ALTURA/2 - 100 && starty <= ALTURA/2 + 80) {
+        				estadoAtual = estados.jogando;
+        				frames = 0;
+        				
+  	      } else if (estadoAtual === estados.perdeu && startx >= LARGURA/2 - 200 && startx <= LARGURA/2 + 200 && starty >= ALTURA/2 - 150 && starty <= ALTURA/2 + 70) {
+      			  estadoAtual = estados.jogar;
+      				obstaculos.limpa();
+      				bloco.reset();
+      				
+  	      } else if (estadoAtual === estados.jogando && startx <= LARGURA/2 && starty >= ALTURA/2)
+              esquerda();
+              
+          else if (estadoAtual === estados.jogando && startx > LARGURA/2 && starty >= ALTURA/2)
+              direita();
+              
+          
+            
+          e.preventDefault()
+    	}, false);
+				
 	};
 	
 	  function esquerda () {
@@ -214,10 +237,9 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 	
 	function main() {
 			
-      /*if (LARGURA >= 500) {
-				LARGURA = 360;
-				ALTURA = 640;
-			}*/
+      if (LARGURA > ALTURA) {
+				LARGURA = ALTURA/2;
+			}
 
 			canvas = document.createElement("canvas");
 			canvas.width = LARGURA;
@@ -235,29 +257,9 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 
 			if (record === null)
 				record = 0;
-				
-			document.onkeydown = checkKey;
 			
-			document.addEventListener('touchstart', function(e) {
-    	    var touchobj = e.changedTouches[0];
-          startx = parseInt(touchobj.clientX);
-    	}, false);
-    	
-    	document.addEventListener('touchmove', function(e) {
-    	    var touchobj = e.changedTouches[0];
-          var dist = parseInt(touchobj.clientX) - startx;
-          bloco.x += bloco.largura * dist / 1000;
-          
-          if (bloco.x < bloco.largura/2)
-              bloco.x = bloco.largura/2;
-          else if (bloco.x > LARGURA - bloco.largura)
-              bloco.x = LARGURA - bloco.largura - bloco.largura/2;
-              
-          e.preventDefault();
-  }, false);
-  
-      img = new Image();
-			img.src = "fruit.png";
+			img = new Image();
+			img.src = "images/fruit.png";
 		
 		  roda();
 	}
@@ -277,22 +279,28 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			ctx.font = "50px Arial";
 
 			
-			if (estadoAtual == estados.jogando) {
+			if (estadoAtual === estados.jogando) {
           obstaculos.desenha();
       }
       
       chao.desenha();
       bloco.desenha();
       
-      if (estadoAtual == estados.jogar) {
+      if (estadoAtual === estados.jogar) {
         
           ctx.fillStyle = "green";
-          ctx.fillRect(LARGURA / 2 - 50, ALTURA / 2 - 50, 100, 100);
+          ctx.fillRect(LARGURA / 2 - 150, ALTURA / 2 - 100, 300, 180);
+          
+          ctx.save();
+          ctx.translate(LARGURA / 2, ALTURA / 2);
+          ctx.fillStyle = "white";
+          ctx.fillText("Começar!", -110, 0);
+          ctx.restore();
       }
       
-      if (estadoAtual == estados.perdeu) {
+      if (estadoAtual === estados.perdeu) {
           ctx.fillStyle = "red";
-          ctx.fillRect(LARGURA / 2 - 50, ALTURA / 2 - 50, 100, 100);
+          ctx.fillRect(LARGURA / 2 - 200, ALTURA / 2 - 150, 400, 220);
           
           ctx.save();
           ctx.translate(LARGURA / 2, ALTURA / 2);
@@ -301,19 +309,19 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
           if (bloco.score > record) {
               ctx.fillText("Novo Record!", -150, -65);
           } else if (record < 10){
-              ctx.fillText("Record " + record, -99, -65);
+              ctx.fillText("Record: " + record, -98, -65);
           } else if (record >=10 && record < 100 ){
-              ctx.fillText("Record " + record, -112, -65);
+              ctx.fillText("Record: " + record, -111, -65);
           } else {
-              ctx.fillText("Record " + record, -125, -65);
+              ctx.fillText("Record: " + record, -124, -65);
           }
           
           if (bloco.score < 10) {
-              ctx.fillText(bloco.score, -13, 19);
+              ctx.fillText("Pontos: " + bloco.score, -98, 19);
           } else if (bloco.score >=10 && bloco.score < 100) {
-              ctx.fillText(bloco.score, -26, 19);
+              ctx.fillText("Pontos: " + bloco.score, -111, 19);
           } else {
-              ctx.fillText(bloco.score, -40, 19);
+              ctx.fillText("Pontos: " + bloco.score, -124, 19);
           }
           
           ctx.restore();
