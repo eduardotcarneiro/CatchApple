@@ -145,8 +145,8 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			score: 0,
 			
 			desenha: function() {
-  				//ctx.fillStyle = this.cor;
-  				//ctx.fillRect(this.x, this.y, this.largura, this.altura);
+  				ctx.fillStyle = this.cor;
+  				ctx.fillRect(this.x, this.y, this.largura, this.altura);
   				cesta.desenha(bloco.x - bloco.largura/6, bloco.y - bloco.altura/3, bloco.largura + bloco.largura/3, bloco.altura + bloco.altura/3);
 			},
 			
@@ -177,34 +177,16 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 	}
 	
 	function clique(event) {
-	    
-  	  document.onkeydown = checkKey;
-        	
-      document.addEventListener('touchstart', function(e) {
-    	    var touchobj = e.changedTouches[0];
-          startx = parseInt(touchobj.clientX);
-          starty = parseInt(touchobj.clientY);
-          
-          if (estadoAtual === estados.jogar && startx >= LARGURA/2 - LARGURA/4 && startx <= LARGURA/2 + LARGURA/4 && starty >= ALTURA/2 - LARGURA/4 && starty <= ALTURA/2 + LARGURA/4) {
-        				estadoAtual = estados.jogando;
-        				frames = 0;
-        				
-  	      } else if (estadoAtual === estados.perdeu && startx >= LARGURA/2 - LARGURA/4 && startx <= LARGURA/2 + LARGURA/4 && starty >= ALTURA/2 - LARGURA/4 && starty <= ALTURA/2 + LARGURA/4) {
-      			  estadoAtual = estados.jogar;
-      				obstaculos.limpa();
-      				bloco.reset();
-      				
-  	      } else if (estadoAtual === estados.jogando && startx <= LARGURA/2 && starty >= ALTURA/2)
-              esquerda();
-              
-          else if (estadoAtual === estados.jogando && startx > LARGURA/2 && starty >= ALTURA/2)
-              direita();
-              
-          
-            
-          e.preventDefault()
-    	}, false);
-				
+			if (estadoAtual == estados.jogar) {
+				estadoAtual = estados.jogando;
+				frames = 0;
+			}
+
+			else if (estadoAtual == estados.perdeu) {
+				estadoAtual = estados.jogar;
+				obstaculos.limpa();
+				bloco.reset();
+			}
 	};
 	
 	  function esquerda () {
@@ -254,12 +236,14 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			estadoAtual = estados.jogar;
 
       record = localStorage.getItem("record");
+      
+      document.onkeydown = checkKey;
 
 			if (record === null)
 				record = 0;
 			
 			img = new Image();
-			img.src = "fruit.png";
+			img.src = "images/fruit.png";
 		
 		  roda();
 	}
