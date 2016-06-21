@@ -236,12 +236,14 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			estadoAtual = estados.jogar;
 
       record = localStorage.getItem("record");
+      
+      document.onkeydown = checkKey;
 
 			if (record === null)
 				record = 0;
 			
 			img = new Image();
-			img.src = "fruit.png";
+			img.src = "images/fruit.png";
 		
 		  roda();
 	}
@@ -258,7 +260,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
       ctx.fillRect(0, 0, LARGURA, ALTURA);
 
 			ctx.fillStyle = "#fff";
-			ctx.font = "50px Arial";
+			ctx.font = "30px Arial";
 
 			
 			if (estadoAtual === estados.jogando) {
@@ -271,7 +273,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
       if (estadoAtual === estados.jogar) {
         
           ctx.fillStyle = "green";
-          ctx.fillRect(LARGURA / 2 - 150, ALTURA / 2 - 100, 300, 180);
+          ctx.fillRect(LARGURA / 2 - LARGURA/4, ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/2);
           
           ctx.save();
           ctx.translate(LARGURA / 2, ALTURA / 2);
@@ -282,7 +284,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
       
       if (estadoAtual === estados.perdeu) {
           ctx.fillStyle = "red";
-          ctx.fillRect(LARGURA / 2 - 200, ALTURA / 2 - 150, 400, 220);
+          ctx.fillRect(LARGURA / 2 - LARGURA/4, ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/2);
           
           ctx.save();
           ctx.translate(LARGURA / 2, ALTURA / 2);
