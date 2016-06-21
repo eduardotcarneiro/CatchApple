@@ -259,7 +259,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 				record = 0;
 			
 			img = new Image();
-			img.src = "images/fruit.png";
+			img.src = "fruit.png";
 		
 		  roda();
 	}
