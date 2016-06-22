@@ -181,7 +181,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
   var coordx = event.touches[0].pageX;
   var coordy = event.touches[0].pageY;
 
-  if (estadoAtual == estados.jogar) {
+  if (estadoAtual == estados.jogar && coordx >= 0 && coordy >=o) {
 	estadoAtual = estados.jogando;
 	frames = 0;
   } else if (estadoAtual == estados.perdeu) {
