@@ -180,7 +180,7 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
   	  }
 	}
 	
-	/*function clique(event) {
+	function clique(event) {
 			if (estadoAtual == estados.jogar) {
 				estadoAtual = estados.jogando;
 				frames = 0;
@@ -191,7 +191,7 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
 				obstaculos.limpa();
 				bloco.reset();
 			}
-	};*/
+	};
 	
 	function touchHandler(event) {
   
@@ -251,7 +251,7 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
 			ctx = canvas.getContext("2d");
 			document.body.appendChild(canvas);
 			
-			//document.addEventListener("mousedown", clique);
+			document.addEventListener("mousedown", clique);
 			
 			document.addEventListener("touchstart", touchHandler, false);
 			
