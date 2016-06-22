@@ -1,4 +1,4 @@
-var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
+var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, img, quant = 2, temp = 25,
 
     ALTURA = window.innerHeight - 15,
 		LARGURA = window.innerWidth - 15,
@@ -220,7 +220,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 	function main() {
 			
       if (LARGURA > ALTURA) {
-				LARGURA = ALTURA/2;
+				LARGURA = 2 * ALTURA/3;
 			}
 
 			canvas = document.createElement("canvas");
@@ -265,10 +265,10 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			
 			if (estadoAtual === estados.jogando) {
           obstaculos.desenha();
+          bloco.desenha();
       }
       
       chao.desenha();
-      bloco.desenha();
       
       if (estadoAtual === estados.jogar) {
         
