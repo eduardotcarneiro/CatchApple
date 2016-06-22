@@ -325,14 +325,15 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
       
       if (estadoAtual === estados.jogar) {
           
+          logo.desenha(LARGURA/9,  ALTURA / 9 , 7 * LARGURA/9, LARGURA/5);
           ctx.font = LARGURA/15 + "px Arial";
           ctx.fillStyle = "green";
-          ctx.fillRect(LARGURA / 2 - LARGURA/4,  ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/3);
+          ctx.fillRect(LARGURA / 2 - LARGURA/4,  ALTURA / 2 + LARGURA/7, LARGURA/2, LARGURA/6);
           
           ctx.save();
           ctx.translate(LARGURA / 2, ALTURA / 2);
           ctx.fillStyle = "white";
-          ctx.fillText("Começar!", - LARGURA/7, -LARGURA/15);
+          ctx.fillText("Começar!", - LARGURA/7, LARGURA/4);
           ctx.restore();
       }
       
