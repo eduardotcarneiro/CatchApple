@@ -1,12 +1,16 @@
-var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, img, quant = 2, temp = 25,
+var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
 
     ALTURA = window.innerHeight - 15,
-		LARGURA = window.innerWidth - 15,
+		LARGURA = window.innerWidth - 15;
+		
+		if (LARGURA > ALTURA) {
+				LARGURA = 2 * ALTURA/3;
+		}
 		
 		//ALTURACANVAS = window.innerHeight - 15,
 		//LARGURACANVAS = window.innerWidth - 15,
 
-    estados = {
+    var estados = {
 			jogar: 0,
 			jogando: 1,
 			perdeu: 2
@@ -158,7 +162,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
               record = this.score;
           }
           quant = 2;
-          velocidade = 9;
+          velocidade = 6;
           temp = 25;
           this.score = 0;
 			}
@@ -175,23 +179,8 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
   	    obstaculos.limpa();
   	  }
 	}
-
-        function touchHandler(event) {
-  
-  var coordx = event.touches[0].pageX;
-  var coordy = event.touches[0].pageY;
-
-  if (estadoAtual == estados.jogar && coordx >= 0 && coordy >=0) {
-	estadoAtual = estados.jogando;
-	frames = 0;
-  } else if (estadoAtual == estados.perdeu && coordx >= 0 && coordy >=0) {
-	estadoAtual = estados.jogar;
-	obstaculos.limpa();
-	bloco.reset();
-  }
-}
-	/*
-	function clique(event) {
+	
+	/*function clique(event) {
 			if (estadoAtual == estados.jogar) {
 				estadoAtual = estados.jogando;
 				frames = 0;
@@ -203,6 +192,26 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 				bloco.reset();
 			}
 	};*/
+	
+	function touchHandler(event) {
+  
+      var coordx = event.touches[0].pageX;
+      var coordy = event.touches[0].pageY;
+    
+      if (estadoAtual == estados.jogar && coordx >= 0 && coordy >=0) {
+    	    estadoAtual = estados.jogando;
+    	    frames = 0;
+      } else if (estadoAtual == estados.perdeu && coordx >= 0 && coordy >=0) {
+    	    estadoAtual = estados.jogar;
+    	    obstaculos.limpa();
+    	    bloco.reset();
+      } else if (estadoAtual == estados.jogando && coordx >= LARGURA/2) {
+    	    direita();
+      } else if (estadoAtual == estados.jogando && coordx < LARGURA/2) {
+    	    esquerda();
+      }
+      event.preventDefault()
+}
 	
 	  function esquerda () {
 	    bloco.x -= LARGURA/10;
@@ -234,11 +243,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 	
 	function main() {
 			
-      if (LARGURA > ALTURA) {
-				LARGURA = 2 * ALTURA/3;
-			}
-
-			canvas = document.createElement("canvas");
+      canvas = document.createElement("canvas");
 			canvas.width = LARGURA;
 			canvas.height = ALTURA;
 			//canvas.style.border = "1px solid #000";
@@ -246,8 +251,9 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			ctx = canvas.getContext("2d");
 			document.body.appendChild(canvas);
 			
-			document.addEventListener("mousedown", clique);
-                        document.addEventListener("touchstart", touchHandler, false);
+			//document.addEventListener("mousedown", clique);
+			
+			document.addEventListener("touchstart", touchHandler, false);
 			
 			estadoAtual = estados.jogar;
 
@@ -276,7 +282,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
       ctx.fillRect(0, 0, LARGURA, ALTURA);
 
 			ctx.fillStyle = "#fff";
-			ctx.font = "30px Arial";
+			ctx.font = LARGURA/15 + "px Arial";
 
 			
 			if (estadoAtual === estados.jogando) {
@@ -286,42 +292,43 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
       
       chao.desenha();
       
+      
       if (estadoAtual === estados.jogar) {
         
           ctx.fillStyle = "green";
-          ctx.fillRect(LARGURA / 2 - LARGURA/4, ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/2);
+          ctx.fillRect(LARGURA / 2 - LARGURA/4,  ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/3);
           
           ctx.save();
           ctx.translate(LARGURA / 2, ALTURA / 2);
           ctx.fillStyle = "white";
-          ctx.fillText("Começar!", -110, 0);
+          ctx.fillText("Começar!", - LARGURA/7, -LARGURA/15);
           ctx.restore();
       }
       
       if (estadoAtual === estados.perdeu) {
           ctx.fillStyle = "red";
-          ctx.fillRect(LARGURA / 2 - LARGURA/4, ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/2);
+          ctx.fillRect(LARGURA / 2 - LARGURA/4,  ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/3);
           
           ctx.save();
           ctx.translate(LARGURA / 2, ALTURA / 2);
           ctx.fillStyle = "white";
           
           if (bloco.score > record) {
-              ctx.fillText("Novo Record!", -150, -65);
+              ctx.fillText("Novo Record!", -LARGURA/5, - LARGURA/8);
           } else if (record < 10){
-              ctx.fillText("Record: " + record, -98, -65);
+              ctx.fillText("Record: " + record, -LARGURA/5, - LARGURA/8);
           } else if (record >=10 && record < 100 ){
-              ctx.fillText("Record: " + record, -111, -65);
+              ctx.fillText("Record: " + record, -LARGURA/5, - LARGURA/8);
           } else {
-              ctx.fillText("Record: " + record, -124, -65);
+              ctx.fillText("Record: " + record, -LARGURA/5, - LARGURA/8);
           }
           
           if (bloco.score < 10) {
-              ctx.fillText("Pontos: " + bloco.score, -98, 19);
+              ctx.fillText("Pontos: " + bloco.score, -LARGURA/5, 0);
           } else if (bloco.score >=10 && bloco.score < 100) {
-              ctx.fillText("Pontos: " + bloco.score, -111, 19);
+              ctx.fillText("Pontos: " + bloco.score, -LARGURA/5, 0);
           } else {
-              ctx.fillText("Pontos: " + bloco.score, -124, 19);
+              ctx.fillText("Pontos: " + bloco.score, -LARGURA/5, 0);
           }
           
           ctx.restore();
