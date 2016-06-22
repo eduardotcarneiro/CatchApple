@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Trabalho 1</title>
-		
+		<script src="sprite.js"></script>
 	</head>
 	
 	<style>
@@ -15,7 +15,7 @@
 	<body>
 	 <script>
 
-var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, img, quant = 2, temp = 25,
+var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
 
     ALTURA = window.innerHeight - 15,
 		LARGURA = window.innerWidth - 15,
@@ -162,8 +162,8 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			score: 0,
 			
 			desenha: function() {
-  				//ctx.fillStyle = this.cor;
-  				//ctx.fillRect(this.x, this.y, this.largura, this.altura);
+  				ctx.fillStyle = this.cor;
+  				ctx.fillRect(this.x, this.y, this.largura, this.altura);
   				cesta.desenha(bloco.x - bloco.largura/6, bloco.y - bloco.altura/3, bloco.largura + bloco.largura/3, bloco.altura + bloco.altura/3);
 			},
 			
@@ -181,23 +181,6 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			}
 		};
 
-var bg = new Sprite(0, 0, 600, 600),
-apple = new Sprite(0, 0, 64, 64),
-berries = new Sprite(192, 0, 64, 64),
-blueberries = new Sprite(256, 0, 64, 64),
-banana = new Sprite(128, 0, 64, 64),
-coconut = new Sprite(384, 0, 64, 64),
-grapes = new Sprite(448, 0, 64, 64),
-lemon = new Sprite(576, 0, 64, 64),
-pineapple = new Sprite(896, 0, 64, 64),
-pear = new Sprite(832, 0, 64, 64),
-strawberry = new Sprite(960, 0, 64, 64),
-papaya = new Sprite(512, 0, 64, 64),
-cherry = new Sprite(320, 0, 64, 64),
-melon = new Sprite(640, 0, 64, 64),
-orange = new Sprite(704, 0, 64, 64),
-
-cesta = new Sprite(0, 65, 128, 128);
   
 	
 	function atualiza() {
@@ -209,22 +192,7 @@ cesta = new Sprite(0, 65, 128, 128);
   	    obstaculos.limpa();
   	  }
 	}
-
-        function touchHandler(event) {
-  
-  var coordx = event.touches[0].pageX;
-  var coordy = event.touches[0].pageY;
-
-  if (estadoAtual == estados.jogar && coordx >= 0 && coordy >=0) {
-	estadoAtual = estados.jogando;
-	frames = 0;
-  } else if (estadoAtual == estados.perdeu && coordx >= 0 && coordy >=0) {
-	estadoAtual = estados.jogar;
-	obstaculos.limpa();
-	bloco.reset();
-  }
-}
-	/*
+	
 	function clique(event) {
 			if (estadoAtual == estados.jogar) {
 				estadoAtual = estados.jogando;
@@ -236,7 +204,7 @@ cesta = new Sprite(0, 65, 128, 128);
 				obstaculos.limpa();
 				bloco.reset();
 			}
-	};*/
+	};
 	
 	  function esquerda () {
 	    bloco.x -= LARGURA/10;
@@ -264,23 +232,12 @@ cesta = new Sprite(0, 65, 128, 128);
         }
     
     }
-
-function Sprite(x, y, largura, altura) {
-	this.x = x;
-	this.y = y;
-	this.largura = largura;
-	this.altura = altura;
-
-	this.desenha = function(xCanvas, yCanvas, larg, alt) {
-		ctx.drawImage(img, this.x, this.y, this.largura, this.altura, xCanvas, yCanvas, larg, alt);
-	}
-}
 	
 	
 	function main() {
 			
       if (LARGURA > ALTURA) {
-				LARGURA = 2 * ALTURA/3;
+				LARGURA = ALTURA/2;
 			}
 
 			canvas = document.createElement("canvas");
@@ -292,7 +249,6 @@ function Sprite(x, y, largura, altura) {
 			document.body.appendChild(canvas);
 			
 			document.addEventListener("mousedown", clique);
-                        document.addEventListener("touchstart", touchHandler, false);
 			
 			estadoAtual = estados.jogar;
 
@@ -326,10 +282,10 @@ function Sprite(x, y, largura, altura) {
 			
 			if (estadoAtual === estados.jogando) {
           obstaculos.desenha();
-          bloco.desenha();
       }
       
       chao.desenha();
+      bloco.desenha();
       
       if (estadoAtual === estados.jogar) {
         
@@ -376,7 +332,6 @@ function Sprite(x, y, largura, altura) {
       }
 			
 	}
-
 	
 	
 	main();
