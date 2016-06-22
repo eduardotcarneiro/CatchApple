@@ -76,8 +76,6 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
                                   temp -= 1;
                             }
                             
-                              
-    	                      console.log(bloco.score);
     	                  }
     	              } else {
     	                 estadoAtual = estados.perdeu;
