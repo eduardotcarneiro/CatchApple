@@ -282,19 +282,22 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
       ctx.fillRect(0, 0, LARGURA, ALTURA);
 
 			ctx.fillStyle = "#fff";
-			ctx.font = LARGURA/15 + "px Arial";
+			ctx.font = LARGURA/20 + "px Arial";
 
 			
 			if (estadoAtual === estados.jogando) {
           obstaculos.desenha();
           bloco.desenha();
+          ctx.fillStyle = "white";
+          ctx.fillText("Pontos: " + bloco.score, LARGURA/20, LARGURA/20 + 15);
       }
       
       chao.desenha();
       
       
       if (estadoAtual === estados.jogar) {
-        
+          
+          ctx.font = LARGURA/15 + "px Arial";
           ctx.fillStyle = "green";
           ctx.fillRect(LARGURA / 2 - LARGURA/4,  ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/3);
           
@@ -306,6 +309,7 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
       }
       
       if (estadoAtual === estados.perdeu) {
+          ctx.font = LARGURA/15 + "px Arial";
           ctx.fillStyle = "red";
           ctx.fillRect(LARGURA / 2 - LARGURA/4,  ALTURA / 2 - LARGURA/4, LARGURA/2, LARGURA/3);
           
