@@ -175,6 +175,21 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
   	    obstaculos.limpa();
   	  }
 	}
+
+        function touchHandler(event) {
+  // Get a reference to our coordinates div
+  var coordx = event.touches[0].pageX;
+  var coordy = event.touches[0].pageY;
+
+  if (estadoAtual == estados.jogar) {
+	estadoAtual = estados.jogando;
+	frames = 0;
+  } else if (estadoAtual == estados.perdeu) {
+	estadoAtual = estados.jogar;
+	obstaculos.limpa();
+	bloco.reset();
+  }
+}
 	
 	function clique(event) {
 			if (estadoAtual == estados.jogar) {
@@ -232,6 +247,7 @@ var canvas, ctx, velocidade = 9, dist = 0, record, img, frames = 0, startx = 0, 
 			document.body.appendChild(canvas);
 			
 			document.addEventListener("mousedown", clique);
+                        document.addEventListener("touchstart", touchHandler, false);
 			
 			estadoAtual = estados.jogar;
 
