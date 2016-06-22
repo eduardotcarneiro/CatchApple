@@ -11,8 +11,7 @@ function Sprite(x, y, largura, altura) {
 
 
 
-var bg = new Sprite(0, 0, 600, 600),
-apple = new Sprite(0, 0, 64, 64),
+var apple = new Sprite(0, 0, 64, 64),
 berries = new Sprite(192, 0, 64, 64),
 blueberries = new Sprite(256, 0, 64, 64),
 banana = new Sprite(128, 0, 64, 64),
@@ -26,11 +25,17 @@ papaya = new Sprite(512, 0, 64, 64),
 cherry = new Sprite(320, 0, 64, 64),
 melon = new Sprite(640, 0, 64, 64),
 orange = new Sprite(704, 0, 64, 64),
-
-cesta = new Sprite(0, 65, 128, 128);
-
+ch = new Sprite(0, 192, 1024, 128),
+cesta = new Sprite(0, 65, 128, 125),
+logo = new Sprite(128, 65, 516, 125);
+/*
 perdeu = new Sprite(603, 478, 397, 358),
 jogar = new Sprite(603, 127, 397, 347),
 novo = new Sprite(68, 721, 287, 93),
-spriteRecord = new Sprite(28, 879, 441, 95),
-chao = new Sprite(0, 604, 600, 54);
+spriteRecord = new Sprite(28, 879, 441, 95);
+
+    		      else if (obs.fruta == "melon")
+    		          melon.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
+    		      
+*/
+
