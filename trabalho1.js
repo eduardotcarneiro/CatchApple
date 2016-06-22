@@ -1,3 +1,11 @@
+/*
+
+    Criado por Eduardo Carneiro
+    Data: 22/06/2015
+    Github: eduardotcarneiro
+    
+*/
+
 var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
 
     ALTURA = window.innerHeight - 15,
