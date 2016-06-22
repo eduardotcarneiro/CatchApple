@@ -6,7 +6,8 @@
     
 */
 
-var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25,
+var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, vidas = 3, record, LARGURACANVAS, ALTURACANVAS, img, quant = 2, temp = 25, mySound, soundEfx,
+
 
     ALTURA = window.innerHeight - 15,
 		LARGURA = window.innerWidth - 15;
@@ -54,10 +55,12 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
     	        var obs = this._obs[i];
     	        obs.y += velocidade;
     	        
-    	        if ( obs.x + obs.largura > bloco.x && obs.x < bloco.x + bloco.largura - 1 && obs.y >= bloco.y ) {
+    	        if ( obs.x + obs.largura - 1> bloco.x && obs.x < bloco.x + bloco.largura - 1 && obs.y >= bloco.y ) {
     	              
     	              if (obs.fruta == "apple") {
     	                  if (obs.y >= bloco.y) {
+    	                      soundEfx.play();
+
     	                      this._obs.splice(i, 1);
                             tam--;
                             i--;
@@ -124,8 +127,6 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
     		          papaya.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
     		      else if (obs.fruta == "cherry")
     		          cherry.desenha(obs.x + obs.largura/10, obs.y + obs.altura/10, obs.largura - obs.largura/5, obs.altura - obs.altura/5);
-    		      else if (obs.fruta == "melon")
-    		          melon.desenha(obs.x + obs.largura/8, obs.y + obs.altura/8, obs.largura - obs.largura/4, obs.altura - obs.altura/4);
     		      
     		      //ctx.fillStyle = obs.cor;
     		      //ctx.fillRect(obs.x, obs.y, obs.largura, obs.altura);
@@ -135,14 +136,16 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
     
     chao = {
       altura: ALTURA/11,
+      largura: LARGURA,
 			y: ALTURA - ALTURA/11,
 			x: 0,
 			
 			cor: "#e8da78",
 
 			desenha: function() {
-				ctx.fillStyle = this.cor;
-				ctx.fillRect(0, this.y, LARGURA, this.altura);
+				//ctx.fillStyle = this.cor;
+				//ctx.fillRect(0, this.y, LARGURA, this.altura);
+				ch.desenha(chao.x, chao.y, LARGURA, chao.altura);
 				
 			}
 	},
@@ -153,7 +156,7 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
 			x: LARGURA/2 - LARGURA/20,
 			y: chao.y - LARGURA/10,
 			
-			cor: "#ff9239",
+			//cor: "#ff9239",
 			score: 0,
 			
 			desenha: function() {
@@ -175,8 +178,21 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
           this.score = 0;
 			}
 		};
-
-  
+  /*
+	function sound(src) {
+      this.sound = document.createElement("audio");
+      this.sound.src = src;
+      this.sound.setAttribute("preload", "auto");
+      this.sound.setAttribute("controls", "none");
+      this.sound.style.display = "none";
+      document.body.appendChild(this.sound);
+      this.play = function(){
+          this.sound.play();
+      }
+      this.stop = function(){
+          this.sound.pause();
+      }
+  } */
 	
 	function atualiza() {
       frames++;
@@ -251,6 +267,8 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
 	
 	function main() {
 			
+			soundEfx = document.getElementById("soundEfx");
+			
       canvas = document.createElement("canvas");
 			canvas.width = LARGURA;
 			canvas.height = ALTURA;
@@ -274,6 +292,8 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
 			
 			img = new Image();
 			img.src = "images/fruit.png";
+			
+			soundEfx = new Audio('pop.M4A');
 		
 		  roda();
 	}
