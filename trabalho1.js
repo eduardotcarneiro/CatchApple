@@ -293,7 +293,7 @@ var canvas, ctx, velocidade = 6, dist = 0, record, img, frames = 0, startx = 0, 
 			img = new Image();
 			img.src = "images/fruit.png";
 			
-			soundEfx = new Audio('pop.M4A');
+			soundEfx = new Audio('pop.m4a');
 		
 		  roda();
 	}
